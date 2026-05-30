@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   Home, Send, Target, BookOpen, HelpCircle, Eye, EyeOff,
   ArrowLeft, ShoppingBag, Coffee, Bus, Smartphone, Gift,
-  PiggyBank, Plus, Search, CheckCircle2, Sparkles, ShieldCheck,
+  PiggyBank, Plus, Search, CheckCircle2, Sparkles,
   Wallet, Bell, X, AlertTriangle, ScanLine, Flame, Trophy, ThumbsUp, ThumbsDown, Settings,
   Award, Lock
 } from "lucide-react";
@@ -141,7 +141,7 @@ export default function App() {
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "44px 26px 30px" }}>
           <div style={{ textAlign: "right" }}><button onClick={() => setScreen("accueil")} style={ghost}>Passer</button></div>
           <div style={{ textAlign: "center" }}>
-            <div style={{ display: "inline-block", animation: "float 3s ease-in-out infinite" }}>{step === 0 ? <Lion size={120} /> : <Pia size={120} />}</div>
+            <div style={{ display: "inline-block", animation: "float 3s ease-in-out infinite" }}>{step === 0 ? <Lion size={110} /> : <Pia size={120} />}</div>
             <h1 style={{ fontFamily: "Fredoka, sans-serif", fontSize: 30, color: C.ink, margin: "22px 0 12px" }}>{s.titre}</h1>
             <p style={{ fontSize: 16, lineHeight: 1.55, color: "#4A5A54", maxWidth: 300, margin: "0 auto" }}>{s.txt}</p>
           </div>
@@ -163,7 +163,7 @@ export default function App() {
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 18px 8px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         {back && <button onClick={() => { setScreen("accueil"); setVDone(false); }} style={iconBtn}><ArrowLeft size={20} /></button>}
-        {titre === "Boussole" && <Lion size={28} />}
+        <Lion size={28} />
         <span style={{ fontFamily: "Fredoka, sans-serif", fontSize: 21, color: C.ink }}>{titre}</span>
       </div>
       <button onClick={() => setDebutant((d) => !d)} style={{ border: "none", cursor: "pointer", borderRadius: 20, padding: "7px 12px", fontSize: 12, fontWeight: 700, background: debutant ? C.green : C.soft, color: debutant ? "#fff" : C.greenDeep, display: "flex", alignItems: "center", gap: 6 }}>
@@ -192,14 +192,14 @@ export default function App() {
               <div style={{ fontFamily: "Fredoka, sans-serif", fontSize: 34, marginTop: 6 }}>{showBalance ? fmt(balance) : "•••• €"}</div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 18, fontSize: 13, letterSpacing: 1 }}>
                 <span style={{ opacity: .9 }}>•••• 7421</span>
-                <span style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 700, fontStyle: "italic" }}><Lion size={22} /> Boussole</span>
+                <span style={{ display: "flex", alignItems: "center", gap: 7, fontWeight: 700, fontStyle: "italic" }}><Lion size={24} /> Boussole</span>
               </div>
             </div>
 
             {/* Bandeau Bouclier — la vedette */}
             <button onClick={() => setScreen("bouclier")} style={{ width: "100%", marginTop: 14, border: "none", cursor: "pointer", textAlign: "left", borderRadius: 20, padding: 16, background: `linear-gradient(135deg, ${C.ink}, #3A3A3A)`, color: "#fff", display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ position: "relative" }}>
-                <ShieldCheck size={40} color={C.sun} />
+                <Bouclier size={48} />
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontFamily: "Fredoka, sans-serif", fontSize: 16 }}>Ton Bouclier anti-arnaque</div>
@@ -212,7 +212,7 @@ export default function App() {
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10, margin: "16px 0 4px" }}>
               <Quick Icon={Send} label="Virement" onClick={() => setScreen("virement")} />
-              <Quick Icon={ShieldCheck} label="Bouclier" onClick={() => setScreen("bouclier")} />
+              <Quick Icon={Bouclier} label="Bouclier" onClick={() => setScreen("bouclier")} />
               <Quick Icon={Target} label="Objectifs" onClick={() => setScreen("objectifs")} />
             </div>
 
@@ -273,7 +273,7 @@ export default function App() {
                   <circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.15)" strokeWidth="8" />
                   <circle cx="32" cy="32" r="27" fill="none" stroke={C.sun} strokeWidth="8" strokeLinecap="round" strokeDasharray={`${(secScore / 100) * 170} 999`} transform="rotate(-90 32 32)" />
                 </svg>
-                <ShieldCheck size={24} color={C.sun} style={{ position: "absolute", top: 20, left: 20 }} />
+                <Bouclier size={30} style={{ position: "absolute", top: 17, left: 17 }} />
               </div>
               <div>
                 <div style={{ fontFamily: "Fredoka, sans-serif", fontSize: 18 }}>Niveau de protection : {secScore}%</div>
@@ -582,27 +582,19 @@ export default function App() {
 }
 
 // ---------- Composants ----------
-// Lion façon ING (logo de marque stylisé, inspiré — pas le logo officiel).
+// Logo ING (icône carrée) : fichier dans boussole/public/ing-lion.png.
 function Lion({ size = 34 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" aria-label="Logo lion" role="img">
-      {/* crinière */}
-      <circle cx="50" cy="50" r="40" fill={C.green} />
-      {[0, 45, 90, 135, 180, 225, 270, 315].map((a) => {
-        const r = (a * Math.PI) / 180;
-        return <circle key={a} cx={50 + 40 * Math.cos(r)} cy={50 + 40 * Math.sin(r)} r="11" fill={C.green} />;
-      })}
-      {/* face */}
-      <circle cx="50" cy="52" r="27" fill="#fff" />
-      {/* oreilles */}
-      <circle cx="33" cy="34" r="7" fill={C.green} /><circle cx="67" cy="34" r="7" fill={C.green} />
-      {/* yeux */}
-      <circle cx="41" cy="48" r="3.4" fill={C.ink} /><circle cx="59" cy="48" r="3.4" fill={C.ink} />
-      {/* museau + nez */}
-      <path d="M44 60 Q50 65 56 60" stroke={C.ink} strokeWidth="3" fill="none" strokeLinecap="round" />
-      <path d="M50 56 L50 60" stroke={C.ink} strokeWidth="3" fill="none" strokeLinecap="round" />
-      <path d="M46 56 Q50 59 54 56 Z" fill={C.green} />
-    </svg>
+    <img src="/ing-lion.png" alt="Logo ING" width={size} height={size}
+      style={{ display: "block", borderRadius: size * 0.22, objectFit: "contain" }} />
+  );
+}
+// Logo du Bouclier anti-arnaque : fichier dans boussole/public/bouclier.png.
+// `size` est passé par Quick/Nav (rendus comme <Icon size=.. />), d'où la même signature.
+function Bouclier({ size = 28, style }) {
+  return (
+    <img src="/bouclier.png" alt="Bouclier" width={size} height={size}
+      style={{ display: "block", objectFit: "contain", borderRadius: size * 0.18, ...style }} />
   );
 }
 function Pia({ size = 44 }) {
@@ -680,7 +672,7 @@ function Field({ label, aide, children }) {
 function Nav({ screen, go }) {
   const items = [
     { k: "accueil", Icon: Home, l: "Accueil" },
-    { k: "bouclier", Icon: ShieldCheck, l: "Bouclier" },
+    { k: "bouclier", Icon: Bouclier, l: "Bouclier" },
     { k: "objectifs", Icon: Target, l: "Objectifs" },
     { k: "lexique", Icon: BookOpen, l: "Lexique" },
   ];
