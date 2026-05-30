@@ -76,7 +76,7 @@ export default function App() {
   const [step, setStep] = useState(0);
   const [prenom, setPrenom] = useState("Sofia");
   const [debutant, setDebutant] = useState(true);
-  const [showBalance, setShowBalance] = useState(true);
+  const [showBalance, setShowBalance] = useState(false);
   const [balance, setBalance] = useState(247.83);
   const [secScore, setSecScore] = useState(40); // score du bouclier (0-100)
   const [tx, setTx] = useState([
@@ -130,9 +130,9 @@ export default function App() {
 
   // ---------- ONBOARDING ----------
   const slides = [
-    { titre: "Bienvenue 👋", txt: "Boussole, c'est ta première banque expliquée pas à pas. Aucun mot compliqué sans explication." },
+    { titre: "Bienvenue 👋", txt: "SHIELD'ING, c'est ta première banque expliquée pas à pas. Aucun mot compliqué sans explication." },
     { titre: "Ton Bouclier 🛡️", txt: "Les arnaques visent surtout les jeunes. Ici, j'analyse les messages douteux et tu t'entraînes à les repérer." },
-    { titre: "À toi de jouer", txt: "Je suis Pia, ton guide. Active le « mode découverte » quand tu veux. Prêt·e ?" },
+    { titre: "À toi de jouer", txt: "Je suis Leo, ton guide. Active le « mode découverte » quand tu veux. Prêt·e ?" },
   ];
   if (screen === "onboarding") {
     const s = slides[step];
@@ -141,7 +141,7 @@ export default function App() {
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "44px 26px 30px" }}>
           <div style={{ textAlign: "right" }}><button onClick={() => setScreen("accueil")} style={ghost}>Passer</button></div>
           <div style={{ textAlign: "center" }}>
-            <div style={{ display: "inline-block", animation: "float 3s ease-in-out infinite" }}>{step === 0 ? <Lion size={110} /> : <Pia size={120} />}</div>
+            <div style={{ display: "inline-block", animation: "float 3s ease-in-out infinite" }}>{step === 0 ? <Lion size={110} /> : <Leo size={120} />}</div>
             <h1 style={{ fontFamily: "Fredoka, sans-serif", fontSize: 30, color: C.ink, margin: "22px 0 12px" }}>{s.titre}</h1>
             <p style={{ fontSize: 16, lineHeight: 1.55, color: "#4A5A54", maxWidth: 300, margin: "0 auto" }}>{s.txt}</p>
           </div>
@@ -177,14 +177,14 @@ export default function App() {
     return (
       <Phone>
         <Scroll>
-          <Header titre="Boussole" />
+          <Header titre="SHIELD'ING" />
           <div style={{ padding: "4px 18px 0" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "2px 0 14px" }}>
               <p style={{ color: "#4A5A54", fontSize: 14, margin: 0 }}>Salut {prenom} 👋 contente de te revoir !</p>
               <button onClick={() => setScreen("reglages")} style={iconBtn} aria-label="Réglages"><Settings size={18} /></button>
             </div>
             <div style={{ borderRadius: 24, padding: 20, color: "#fff", position: "relative", overflow: "hidden", background: `linear-gradient(135deg, ${C.greenDeep}, ${C.green})`, boxShadow: "0 14px 30px rgba(14,138,95,.35)" }}>
-              <div style={{ position: "absolute", right: -30, top: -30, width: 130, height: 130, borderRadius: 130, background: "rgba(255,255,255,.08)" }} />
+              <div style={{ position: "absolute", right: -30, top: -30, width: 130, height: 130, borderRadius: 130, background: "rgba(255,255,255,.08)", pointerEvents: "none" }} />
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ fontSize: 13, opacity: .85, display: "flex", alignItems: "center" }}>Solde disponible<Aide titre="Le solde" texte="L'argent réellement disponible sur ton compte en ce moment." /></span>
                 <button onClick={() => setShowBalance((s) => !s)} style={{ ...iconBtn, color: "#fff" }}>{showBalance ? <Eye size={18} /> : <EyeOff size={18} />}</button>
@@ -192,7 +192,7 @@ export default function App() {
               <div style={{ fontFamily: "Fredoka, sans-serif", fontSize: 34, marginTop: 6 }}>{showBalance ? fmt(balance) : "•••• €"}</div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 18, fontSize: 13, letterSpacing: 1 }}>
                 <span style={{ opacity: .9 }}>•••• 7421</span>
-                <span style={{ display: "flex", alignItems: "center", gap: 7, fontWeight: 700, fontStyle: "italic" }}><Lion size={24} /> Boussole</span>
+                <span style={{ display: "flex", alignItems: "center", gap: 7, fontWeight: 700, fontStyle: "italic" }}><Lion size={24} /> SHIELD'ING</span>
               </div>
             </div>
 
@@ -229,7 +229,7 @@ export default function App() {
                     <span style={{ display: "block", fontWeight: 700, color: C.ink, fontSize: 14.5 }}>{t.nom}</span>
                     <span style={{ display: "block", fontSize: 12, color: "#8A968F" }}>{t.cat} · {t.date}</span>
                   </span>
-                  <span style={{ fontWeight: 800, fontSize: 14.5, color: t.montant > 0 ? C.safe : C.ink }}>{t.montant > 0 ? "+" : ""}{fmt(Math.abs(t.montant)).replace(" €", "")} €</span>
+                  <span style={{ fontWeight: 800, fontSize: 14.5, color: t.montant > 0 ? C.safe : C.red }}>{t.montant > 0 ? "+" : "-"}{fmt(Math.abs(t.montant)).replace(" €", "")} €</span>
                 </button>
               ))}
             </div>
@@ -241,7 +241,7 @@ export default function App() {
             <div style={{ textAlign: "center" }}>
               <span style={{ width: 56, height: 56, borderRadius: 18, background: openTx.color + "22", color: openTx.color, display: "inline-flex", alignItems: "center", justifyContent: "center" }}><openTx.Icon size={26} /></span>
               <h3 style={{ fontFamily: "Fredoka, sans-serif", fontSize: 22, margin: "12px 0 2px", color: C.ink }}>{openTx.nom}</h3>
-              <div style={{ fontSize: 26, fontWeight: 800, color: openTx.montant > 0 ? C.safe : C.ink }}>{openTx.montant > 0 ? "+" : "-"}{fmt(Math.abs(openTx.montant))}</div>
+              <div style={{ fontSize: 26, fontWeight: 800, color: openTx.montant > 0 ? C.safe : C.red }}>{openTx.montant > 0 ? "+" : "-"}{fmt(Math.abs(openTx.montant))}</div>
               <div style={{ color: "#8A968F", fontSize: 13, marginTop: 2 }}>{openTx.cat} · {openTx.date}</div>
               <Astuce>{openTx.exp}</Astuce>
             </div>
@@ -597,22 +597,18 @@ function Bouclier({ size = 28, style }) {
       style={{ display: "block", objectFit: "contain", borderRadius: size * 0.18, ...style }} />
   );
 }
-function Pia({ size = 44 }) {
+// Mascotte Leo : image dans boussole/public/assistant.png (petit lion ING).
+// `size` est passé par l'onboarding et les bulles d'aide (composant Astuce).
+function Leo({ size = 44 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" aria-hidden>
-      <circle cx="50" cy="52" r="38" fill={C.green} /><circle cx="50" cy="52" r="38" fill="none" stroke={C.ink} strokeWidth="3" />
-      <circle cx="38" cy="46" r="6.5" fill="#fff" /><circle cx="62" cy="46" r="6.5" fill="#fff" />
-      <circle cx="39.5" cy="47" r="3" fill={C.ink} /><circle cx="63.5" cy="47" r="3" fill={C.ink} />
-      <path d="M40 64 Q50 72 60 64" stroke="#fff" strokeWidth="4" fill="none" strokeLinecap="round" />
-      <circle cx="30" cy="58" r="4" fill="#fff" opacity="0.5" /><circle cx="70" cy="58" r="4" fill="#fff" opacity="0.5" />
-      <path d="M50 14 L50 4 M50 4 a4 4 0 1 1 0.01 0" stroke={C.ink} strokeWidth="3" fill="none" strokeLinecap="round" />
-    </svg>
+    <img src="/assistant.png" alt="Leo, ton guide" width={size} height={size}
+      style={{ display: "block", objectFit: "contain" }} />
   );
 }
 function Astuce({ children }) {
   return (
     <div style={{ display: "flex", gap: 10, alignItems: "flex-start", background: C.mint, border: `2px dashed ${C.green}`, borderRadius: 16, padding: "12px 14px", margin: "10px 0" }}>
-      <div style={{ flexShrink: 0, marginTop: 2 }}><Pia size={30} /></div>
+      <div style={{ flexShrink: 0, marginTop: 2 }}><Leo size={30} /></div>
       <div style={{ fontSize: 13.5, lineHeight: 1.45, color: C.ink }}>{children}</div>
     </div>
   );
